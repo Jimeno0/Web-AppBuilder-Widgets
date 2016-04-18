@@ -159,7 +159,8 @@ define(['dojo/_base/declare',
                         "PuntoDestino": featureSetFin
                   };
                   //Url del geoproceso
-                  var GProutesUrl = "http://localhost:6080/arcgis/rest/services/Proyecto/CalculoRutas7/GPServer/Calculo%20de%20rutas";
+                  var GProutesUrl = this.config.inPanelVar.params.urlGeoprocess;
+                  //var GProutesUrl = "http://localhost:6080/arcgis/rest/services/Proyecto/CalculoRutas7/GPServer/Calculo%20de%20rutas";
                   //Establecemos el geoproceso, el sistema de referencia de salida para que nos lo pinte bien y realizamos el submitjob
                   var gp = new Geoprocessor(GProutesUrl);
                   gp.setOutSpatialReference( {wkid: 102100});
