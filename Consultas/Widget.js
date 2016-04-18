@@ -31,10 +31,6 @@ define(['dojo/_base/declare',
       startup: function() {
               //Creamos la simbologia que emplearan nuestras rutas
               sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255,0,0]),4);
-
-      },
-
-      onOpen: function(){
               //Creamos el infowindow de nuestro widget
               var infoWindow = new InfoWindowLite(null, domConstruct.create("div", null, null, this.map.root));
               infoWindow.startup();
@@ -69,6 +65,9 @@ define(['dojo/_base/declare',
 
 
               };
+      },
+
+      onOpen: function(){
 
                       this.inherited(arguments);
                       //Funcion para limpiar el contenido existente en la tabla
@@ -78,12 +77,14 @@ define(['dojo/_base/declare',
                       };
                       //Declaramos las variables para que se puedan llamar desde dentro de las funciones
                       mapa = this.map;
+                      urlServicio = this.config.inPanelVar.params.urlServicio;
                       funciOnClick = funciOnClick2;
                       //Query que nos devuelve todos los elementos de la feature para que siempre que abramos el  widget nos dibuje toda la tabla
                       var query = new Query();
                       query.where =this.dificultad;
                       query.outFields = ["NombreRuta","Usuario","Dificultad","Minutos","Segundos","SHAPE.STLength()","OBJECTID"];
-                      var queryTask = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
+                      var queryTask = new QueryTask(urlServicio);
+                      //var queryTask = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
                       queryTask.execute(query,addColumns);
                       //Para poder llamar a la funcion addColumns desde la funcion
                       addColumns2=addColumns;
@@ -118,6 +119,7 @@ define(['dojo/_base/declare',
                       //Funcion que se ejecuta al clicar sobre un elemento de la tabla para dibujar la ruta clicada
                       function funciOnClick2(e){
                               //Limpiamos la capa de graficos del mapa
+                              debugger
                               mapa.graphics.clear();
                               //Query que extrae el elemento con el ID clicado de la tabla
                               var query2 = new Query();
@@ -125,7 +127,7 @@ define(['dojo/_base/declare',
                               query2.outFields = ["NombreRuta","Usuario","Dificultad","Minutos","Segundos","SHAPE.STLength()","OBJECTID","Comentario","Imagen"];
                               query2.returnGeometry = true;
                               query2.outSpatialReference = {wkid: 102100};
-                              var queryTask2 = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
+                              var queryTask2 = new QueryTask(urlServicio);
                               queryTask2.execute(query2,drawSelected);
                               //Funcion para dibujar la feature que nos devuelve la query
                               function drawSelected(fs){
@@ -149,7 +151,7 @@ define(['dojo/_base/declare',
               query.where =this.dificultad +" AND " + this.distancia + " AND " + this.tiempo;
               query.outFields = ["NombreRuta","Usuario","Dificultad","Minutos","Segundos","SHAPE.STLength()","OBJECTID"];
               query.returnGeometry = true;
-              var queryTask = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
+              var queryTask = new QueryTask(urlServicio);
               //Al ejecutarla llamamos a las funciones definidas anteriormente para rellenar la tabla con la información de las rutas 
               //y que al clicar en cada una nos la dibuje en el mapa
               queryTask.execute(query,addColumns2);
