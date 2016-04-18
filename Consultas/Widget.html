@@ -1,0 +1,81 @@
+
+<div id="mainDivConsult">
+
+  <div class="btn-group" role="group">
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dificultad
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a data-dojo-attach-event="onclick:funcionFacil">Fácil</a></li>
+                <li><a data-dojo-attach-event="onclick:funcionMedia">Media</a></li>
+                <li><a data-dojo-attach-event="onclick:funcionTrialera">Trialeras</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a data-dojo-attach-event="onclick:funcionTodasDificul">Todas</a></li>
+            </ul>
+          </div>
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Distancia
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a data-dojo-attach-event="onclick:funcion5km">0-5Km</a></li>
+                <li><a data-dojo-attach-event="onclick:funcion10km">5-10km</a></li>
+                <li><a data-dojo-attach-event="onclick:funcionMas10km">+10km</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a data-dojo-attach-event="onclick:funcionTodasDist">Todas</a></li>
+            </ul>
+          </div>
+
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Tiempo
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+              <li><a data-dojo-attach-event="onclick:funcion15Min">0-15''</a></li>
+              <li><a data-dojo-attach-event="onclick:funcion30Min">15-30''</a></li>
+              <li><a data-dojo-attach-event="onclick:funcionMas30Min">+30''</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a data-dojo-attach-event="onclick:funcionTodasMin">Todas</a></li>
+          </ul>
+        </div>
+
+        <input type="button" class= "btn btn-primary"id="btnZoom" data-dojo-attach-event="onclick:funcionConsulta" value="Consultar"></input>
+</div>
+
+    <br>
+    <br> 
+    <div>
+    <table  class="table table-condensed table-hover ">
+    <thead>
+    <tr>
+      <th>Nombre ruta</th>
+      <th>Usuario</th>
+      <th>Dificultad</th>
+      <th>Tiempo</th>
+      <th>Distancia</th>
+    </tr>
+    </thead>
+    <tbody id="rutasUsers">
+    <tbody>
+    </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+

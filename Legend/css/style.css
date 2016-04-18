@@ -1,0 +1,9 @@
+.esriLegendServiceLabel {
+  font-size: 14px;
+  display: none;
+}
+.esriLegendLayer{
+  color: white;
+  font-size: 12px;
+  background-color: rgba(180, 180, 180, 0.6);
+}

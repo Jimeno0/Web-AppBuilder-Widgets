@@ -1,0 +1,71 @@
+
+<div>
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item active">
+          <a class="nav-link" data-dojo-attach-event="onclick:funcionParamBici" href="#bici" role="tab" data-toggle="tab">
+              <img class="hidden-xs" src = "http://localhost/ICONOS/icon-60693.png" alt = "Bycicle icon">
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" data-dojo-attach-event="onclick:funcionParamRun" href="#run" role="tab" data-toggle="tab">
+              <img class="hidden-xs" src = "http://localhost/ICONOS/icon-1837.png" alt = "Running icon">
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" data-dojo-attach-event="onclick:funcionParamPaseo" href="#paseo" role="tab" data-toggle="tab">
+              <img class="hidden-xs" src = "http://localhost/ICONOS/icon-8818.png" alt = "Walking icon">
+          </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+          <div class="tab-pane active" id="bici" role="tabpanel">
+                <br>
+                <label>
+                      <input type="checkbox" data-dojo-attach-point="trafficRadio" unchecked>
+                           Evitar carreteras con tráfico
+                </label>
+          </div>
+          <div class="tab-pane " id="run" role="tabpanel"></div>
+          <div class="tab-pane " id="paseo" role="tabpanel"></div>    
+    </div>
+
+    <br>
+
+    <div class="dropdown" >
+      
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        ¿Qué buscas?
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li><a data-dojo-attach-event="onclick:funcionFuente">Fuente</a></li>
+        <li><a data-dojo-attach-event="onclick:funcionResta">Restauración</a></li>
+        <li><a data-dojo-attach-event="onclick:funcionMirador">Mirador</a></li>
+        <li><a data-dojo-attach-event="onclick:funcionCerro">Cerro</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a data-dojo-attach-event="onclick:funcionTransporte">Transporte</a></li>
+      </ul>
+    </div>
+    <br>
+
+    <div id="tiempoInputDiv">
+          <label for="tiempoInput">Tiempo de viaje</label>
+          <input id='tiempoInput' type="text"class = "form-control" placeholder="Minutos">
+    </div>
+     <br>
+    <div id="posicionDiv">
+          <button id="positionBtn" type="button" class="btn btn-default text-left" data-dojo-attach-event="onclick:funcionCapaInicio">
+            <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> Inicio
+          </button>
+          <button type="button" class="btn btn-link" data-dojo-attach-event="onclick:funcionBorrar">Borrar</button>
+    </div>
+    <br>
+    <div id= calculoDiv>
+          <button type="button" class="btn btn-primary" data-dojo-attach-event="onclick:funcionCalcular">
+              Calcular
+          </button>
+    </div>
+ 
+  </div>

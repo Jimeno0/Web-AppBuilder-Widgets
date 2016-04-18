@@ -1,0 +1,6 @@
+.btn-default, .btn-primary, .form-control{
+  width: 130px;
+}
+#positionBtn{
+  text-align: left;
+}

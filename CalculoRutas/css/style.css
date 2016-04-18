@@ -1,0 +1,7 @@
+.btn-default, .btn-primary{
+  width: 130px;
+}
+
+.btn-default, .btn-primary, .form-control{
+  width: 130px;
+}
