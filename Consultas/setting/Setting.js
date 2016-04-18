@@ -51,6 +51,41 @@ define([
         if (options && options.urlServicio) {
           this.urlServicio.set('value', options.urlServicio);
         }
+        if (options && options.label1row) {
+          this.label1row.set('value', options.label1row);
+        }
+        if (options && options.label2row) {
+          this.label2row.set('value', options.label2row);
+        }
+        if (options && options.label3row) {
+          this.label3row.set('value', options.label3row);
+        }
+        if (options && options.label4row) {
+          this.label4row.set('value', options.label4row);
+        }
+        if (options && options.label5row) {
+          this.label5row.set('value', options.label5row);
+        }
+
+
+
+        if (options && options.firstRowName) {
+          this.firstRowName.set('value', options.firstRowName);
+        }
+        if (options && options.secondRowName) {
+          this.secondRowName.set('value', options.secondRowName);
+        }
+        if (options && options.thirdRowName) {
+          this.thirdRowName.set('value', options.thirdRowName);
+        }
+        if (options && options.fourthRowName) {
+          this.fourthRowName.set('value', options.fourthRowName);
+        }
+        if (options && options.fifthRowName) {
+          this.fifthRowName.set('value', options.fifthRowName);
+        }
+
+
       },
 
       // Al cerrar la configuración del widget
@@ -60,9 +95,17 @@ define([
         // Almacenamos los valores
         options.urlServicio = this.urlServicio.get("value");
 
-       
- 
+        options.label1row = this.label1row.get("value");
+        options.label2row = this.label2row.get("value");
+        options.label3row = this.label3row.get("value");
+        options.label4row = this.label4row.get("value");
+        options.label5row = this.label5row.get("value");
 
+        options.firstRowName = this.firstRowName.get("value");
+        options.secondRowName = this.secondRowName.get("value");
+        options.thirdRowName = this.thirdRowName.get("value");
+        options.fourthRowName = this.fourthRowName.get("value");
+        options.fifthRowName = this.fifthRowName.get("value");
         return this.config;
       }
 

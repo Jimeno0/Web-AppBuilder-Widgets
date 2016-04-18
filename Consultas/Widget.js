@@ -29,6 +29,19 @@ define(['dojo/_base/declare',
       tiempo:"1=1",
 
       startup: function() {
+
+
+
+
+            //Atributos definidos por el usuario
+            //--------------------------------
+            attribute1 = this.config.inPanelVar.params.firstRowName;
+            attribute2 = this.config.inPanelVar.params.secondRowName;
+            attribute3 = this.config.inPanelVar.params.thirdRowName;
+            attribute4 = this.config.inPanelVar.params.fourthRowName;
+            attribute5 = this.config.inPanelVar.params.fifthRowName;
+
+
               //Creamos la simbologia que emplearan nuestras rutas
               sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255,0,0]),4);
               //Creamos el infowindow de nuestro widget
@@ -65,6 +78,21 @@ define(['dojo/_base/declare',
 
 
               };
+
+              //CABECERA DE LA TABLA, EN FUNCION DE LO QUE ESCRIBA EL USUARIO
+              //----------------------------------------------------------------
+              var tr = domConstruct.create("tr", {}, "cabeceraTabla"),
+              td = domConstruct.create("td", {}, tr),
+              l = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label1row}, td, 'first'),
+              td1 = domConstruct.create("td", {}, tr),
+              l1 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label2row}, td1, 'first'),
+              td11 = domConstruct.create("td", {}, tr),
+              l11 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label3row}, td11, 'first'),
+              td12 = domConstruct.create("td", {}, tr),
+              l12 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label4row}, td12, 'first'),
+              td13 = domConstruct.create("td", {}, tr),
+              l11 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.labelrow}, td13, 'first');
+
       },
 
       onOpen: function(){
@@ -82,7 +110,7 @@ define(['dojo/_base/declare',
                       //Query que nos devuelve todos los elementos de la feature para que siempre que abramos el  widget nos dibuje toda la tabla
                       var query = new Query();
                       query.where =this.dificultad;
-                      query.outFields = ["NombreRuta","Usuario","Dificultad","Minutos","Segundos","SHAPE.STLength()","OBJECTID"];
+                      query.outFields = [attribute1,attribute2,attribute3,attribute4,attribute5,"OBJECTID"];
                       var queryTask = new QueryTask(urlServicio);
                       //var queryTask = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
                       queryTask.execute(query,addColumns);
@@ -94,26 +122,19 @@ define(['dojo/_base/declare',
                             //Funcion que nos recorre todos los elementos
                             arrayUtils.forEach(features, function(feature){
 
-                                      if (feature.attributes["Dificultad"]==1) {
-                                        var dificultad = "Facil";
-                                      }else if (feature.attributes["Dificultad"]==2) {
-                                        var dificultad = "Media";
-                                      }else if (feature.attributes["Dificultad"]==3) {
-                                        var dificultad = "Trialera";
-                                      };
                                       //Creamos y rellenamos todos los elementos de nuestra tabla
                                       //En cada fila establecemos que el evento onclick llame a la funcion funcionAlerta definida anteriormente
                                       var tr = domConstruct.create("tr", {'onClick' : "funciOnClick('" + feature.attributes["OBJECTID"] + "');"}, "rutasUsers"),
                                       td = domConstruct.create("td", {}, tr),
-                                      l = domConstruct.create("span", {innerHTML:feature.attributes["NombreRuta"]}, td, 'first'),
+                                      l = domConstruct.create("span", {innerHTML:feature.attributes[attribute1]}, td, 'first'),
                                       td1 = domConstruct.create("td", {}, tr),
-                                      l1 = domConstruct.create("span", {innerHTML:feature.attributes["Usuario"]}, td1, 'first'),
+                                      l1 = domConstruct.create("span", {innerHTML:feature.attributes[attribute2]}, td1, 'first'),
                                       td11 = domConstruct.create("td", {}, tr),
-                                      l11 = domConstruct.create("span", {innerHTML:dificultad}, td11, 'first'),
+                                      l11 = domConstruct.create("span", {innerHTML:feature.attributes[attribute3]}, td11, 'first'),
                                       td12 = domConstruct.create("td", {}, tr),
-                                      l12 = domConstruct.create("span", {innerHTML:feature.attributes["Minutos"]+"'' "+feature.attributes["Segundos"]+"'" }, td12, 'first'),
+                                      l12 = domConstruct.create("span", {innerHTML:feature.attributes[attribute4]}, td12, 'first'),
                                       td13 = domConstruct.create("td", {}, tr),
-                                      l11 = domConstruct.create("span", {innerHTML:Math.round(feature.attributes["SHAPE.STLength()"])+"m"}, td13, 'first');
+                                      l11 = domConstruct.create("span", {innerHTML:feature.attributes[attribute5]}, td13, 'first');
                             });
                       };
                       //Funcion que se ejecuta al clicar sobre un elemento de la tabla para dibujar la ruta clicada
@@ -149,7 +170,7 @@ define(['dojo/_base/declare',
               //Definimos la query segun los parametros que le pasemos a traves de las funciones definidas despues
               var query = new Query();
               query.where =this.dificultad +" AND " + this.distancia + " AND " + this.tiempo;
-              query.outFields = ["NombreRuta","Usuario","Dificultad","Minutos","Segundos","SHAPE.STLength()","OBJECTID"];
+              query.outFields = [attribute1,attribute2,attribute3,attribute4,attribute5,"OBJECTID"];
               query.returnGeometry = true;
               var queryTask = new QueryTask(urlServicio);
               //Al ejecutarla llamamos a las funciones definidas anteriormente para rellenar la tabla con la información de las rutas 
