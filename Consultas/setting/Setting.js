@@ -13,11 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
-
 define([
     'dojo/_base/declare',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidgetSetting',
+    "dojo/request",
+    "dojo/dom-construct",
     'dijit/form/ValidationTextBox',
     'dijit/form/NumberTextBox',
     'dijit/form/TextBox',
@@ -26,10 +27,11 @@ define([
   function(
     declare,
     _WidgetsInTemplateMixin,
-    BaseWidgetSetting) {
+    BaseWidgetSetting,request,domConstruct) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       // Declaramos la clase CSS para los estilos
       baseClass: 'jimu-widget-in-panel-setting',
+      _algo:{},
 
       startup: function() {
         this.inherited(arguments);
@@ -48,42 +50,30 @@ define([
         var options = config.inPanelVar.params;
 
         // Cargamos los valores si existen
-        if (options && options.urlServicio) {
-          this.urlServicio.set('value', options.urlServicio);
-        }
-        if (options && options.label1row) {
-          this.label1row.set('value', options.label1row);
-        }
-        if (options && options.label2row) {
-          this.label2row.set('value', options.label2row);
-        }
-        if (options && options.label3row) {
-          this.label3row.set('value', options.label3row);
-        }
-        if (options && options.label4row) {
-          this.label4row.set('value', options.label4row);
-        }
-        if (options && options.label5row) {
-          this.label5row.set('value', options.label5row);
-        }
 
 
+        headerParams = new Array();
+        fieldsParams = new Array();
+        for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) { 
+   
+          var rowParams = document.getElementById("columnsSettings").children[i];
+          var rowHeaderChild = rowParams.children[1];
+          var rowFieldChild = rowParams.children[3];
+          headerParams[i] = rowHeaderChild.children[0];
+          fieldsParams[i] = rowFieldChild.children[0];
 
-        if (options && options.firstRowName) {
-          this.firstRowName.set('value', options.firstRowName);
-        }
-        if (options && options.secondRowName) {
-          this.secondRowName.set('value', options.secondRowName);
-        }
-        if (options && options.thirdRowName) {
-          this.thirdRowName.set('value', options.thirdRowName);
-        }
-        if (options && options.fourthRowName) {
-          this.fourthRowName.set('value', options.fourthRowName);
-        }
-        if (options && options.fifthRowName) {
-          this.fifthRowName.set('value', options.fifthRowName);
-        }
+
+          if (options && options.headerParams[i]) {
+            this.headerParams[i].set('value', options.headerParams[i]);
+
+          };
+          if (options && options.fieldsParams[i]) {
+            this.fieldsParams[i].set('value', options.fieldsParams[i]);
+
+          };
+        };
+
+
 
 
       },
@@ -93,21 +83,85 @@ define([
         var options = this.config.inPanelVar.params;
 
         // Almacenamos los valores
-        options.urlServicio = this.urlServicio.get("value");
+        for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) {
+          var rowParams = document.getElementById("columnsSettings").children[i];
+          var rowHeaderChild = rowParams.children[1];
+          var rowFieldChild = rowParams.children[3];
+          headerParams[i] = rowHeaderChild.children[0];
+          fieldsParams[i] = rowFieldChild.children[0];
 
-        options.label1row = this.label1row.get("value");
-        options.label2row = this.label2row.get("value");
-        options.label3row = this.label3row.get("value");
-        options.label4row = this.label4row.get("value");
-        options.label5row = this.label5row.get("value");
 
-        options.firstRowName = this.firstRowName.get("value");
-        options.secondRowName = this.secondRowName.get("value");
-        options.thirdRowName = this.thirdRowName.get("value");
-        options.fourthRowName = this.fourthRowName.get("value");
-        options.fifthRowName = this.fifthRowName.get("value");
+          if (options && options.headerParams[i]) {
+            this.headerParams[i].set('value', options.headerParams[i]);
+
+          };
+          if (options && options.fieldsParams[i]) {
+            this.fieldsParams[i].set('value', options.fieldsParams[i]);
+
+          };
+
+        options.headerParams[i] = this.headerParams[i].get("value");
+        options.fieldsParams[i] = this.fieldsParams[i].get("value");
+        };
         return this.config;
+      },
+
+      comprobarUrl: function(){
+
+        var urlJson = this.urlServicio.value+"?f=json";
+        fields = this._algo.fields;
+        this._algo.counter = 0;
+        var that = this;
+
+        funciBorrarRow = function(counter){
+          var elemtToDelete = document.getElementById("id"+counter);
+          document.getElementById("columnsSettings").removeChild(elemtToDelete);
+        };
+        request(urlJson, {
+          headers: {
+            "X-Requested-With": null
+          }
+        }).then(
+          function(text){
+            var jsonObjet = JSON.parse(text);
+           that._algo.fields = jsonObjet.fields;
+           that.funciAddRow();
+            
+          },
+          function(error){
+            console.log("An error occurred: " + error);
+          }
+        );
+      },
+      funciAddRow: function(){
+        //document.getElementById("columnsSettings").innerHTML ='<tr><td>....</td></tr>'
+         var tr = domConstruct.create("tr",{id:"id"+this._algo.counter}),
+            td = domConstruct.create("td", {}, tr),
+            l = domConstruct.create("span", {innerHTML:"Encabezado: "}, td, 'first'),
+            td1 = domConstruct.create("td", {}, tr),
+            l1 = domConstruct.create("input", {id:"input"+this._algo.counter}, td1, 'first'),
+            td11 = domConstruct.create("td", {}, tr),
+            l11 = domConstruct.create("span", {innerHTML:"Seleccione campo:"}, td11, 'first'),
+            td12 = domConstruct.create("td", {}, tr),
+            l12 = domConstruct.create("select", {id:"select"+this._algo.counter}, td12, 'first');
+
+            for (i = 0; i < this._algo.fields.length; i++) { 
+                var elemento = "l12"+i.toString(); 
+                elemento = domConstruct.create("option", {innerHTML:this._algo.fields[i].name}, l12, 'first');
+            };
+            td13 = domConstruct.create("td", {}, tr),
+            l13 = domConstruct.create("button", {
+                  innerHTML:"X",
+                  style: { "background-color": "red" },
+                  'onClick' : "funciBorrarRow("+this._algo.counter+");"
+                }, td13, 'first');
+
+            this._algo.counter++;
+
+            document.getElementById("columnsSettings").appendChild(tr);
       }
 
     });
   });
+
+//document.getElementById("columnsSettings").children[0]

@@ -1,8 +1,5 @@
 <div style="width:100%;">
   <table class="setting-table input-table" cellspacing="0">
-    <tbody>
-      <tr>
-
 
         <label for="urlServicio">Url :</label>
           <input
@@ -12,157 +9,13 @@
             placeHolder="http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0"
             data-dojo-attach-point="urlServicio"
             data-dojo-props='style:{width:"520px"}'
+            value = "http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0"
           />
-
-      </tr>
-
-      <tr>
-        
-        <td style="padding-right:50px">
-          <label for="label1row">Encabezado 1ª columna:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            placeHolder="Nombre de la ruta"
-            data-dojo-attach-point="label1row"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-        <td >
-          <label for="firstRowName">Nombre del campo:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            data-dojo-attach-point="firstRowName"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-      </tr>
-
-      <tr>
-
-        <td  style="padding-right:50px">
-          <label for="label2row">Encabezado 2ª columna:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            placeHolder="Usuario"
-            data-dojo-attach-point="label2row"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-        <td >
-        <label for="secondRowName">Nombre del campo:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            data-dojo-attach-point="secondRowName"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-      </tr>
-
-
-      <tr>
-
-        <td  style="padding-right:50px">
-          <label for="label3row">Encabezado 3ª columna:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            placeHolder="Dificultad"
-            data-dojo-attach-point="label3row"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-        <td >
-        <label for="thirdRowName">Nombre del campo:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            data-dojo-attach-point="thirdRowName"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-      </tr>
-
-      <tr>
-
-        <td  style="padding-right:50px">
-          <label for="label4row">Encabezado 4ª columna:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            placeHolder="Usuario"
-            data-dojo-attach-point="label4row"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-        <td >
-        <label for="fourthRowName">Nombre del campo:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            data-dojo-attach-point="fourthRowName"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-      </tr>
-
-      <tr>
-
-        <td  style="padding-right:50px">
-          <label for="label5row">Encabezado 5ª columna:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            placeHolder="Distancia"
-            data-dojo-attach-point="label5row"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-        <td >
-        <label for="fifthRowName">Nombre del campo:</label>
-          <input
-            type="text"
-            data-dojo-type="dijit/form/TextBox"
-            required="true"
-            data-dojo-attach-point="fifthRowName"
-            data-dojo-props='style:{width:"100px"}, trim:true'
-          />
-        </td>
-      </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
+          <input type="button" class= "btn btn-primary"id="btnUrlService" data-dojo-attach-event="onclick:comprobarUrl" value="Comprobar"></input>
+    <tbody id = "columnsSettings">
+       
     </tbody>
   </table>
+      <input type="button" class= "btn btn-primary"id="btnAddRow" data-dojo-attach-event="onclick:funciAddRow" value="Añadir columna"></input>
+
 </div>
