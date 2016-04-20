@@ -30,6 +30,10 @@ define(['dojo/_base/declare',
 
       startup: function() {
 
+              configParams = this.config.inPanelVar.params.tableConfigParams;
+
+
+
 
               //Creamos la simbologia que emplearan nuestras rutas
               sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255,0,0]),4);
@@ -70,9 +74,9 @@ define(['dojo/_base/declare',
 
               var cabecera = document.getElementById("cabeceraTabla").insertRow(0);
 
-              for (i = 0; i < this.config.inPanelVar.params.tableConfigParams.length; i++) {
+              for (i = 0; i < configParams.length; i++) {
 
-                  var contenidoCabecera = this.config.inPanelVar.params.tableConfigParams[i].header;
+                  var contenidoCabecera = configParams[i].header;
 
                   var newCell = cabecera.insertCell(i);
                   newCell.innerHTML = contenidoCabecera;
@@ -93,8 +97,17 @@ define(['dojo/_base/declare',
                       funciOnClick = funciOnClick2;
                       //Query que nos devuelve todos los elementos de la feature para que siempre que abramos el  widget nos dibuje toda la tabla
                       var query = new Query();
-                      query.where =this.dificultad;
-                      query.outFields = [attribute1,attribute2,attribute3,attribute4,attribute5,"OBJECTID"];
+                      query.where ="1=1";
+
+
+                      var OutFieldsArray = new Array();
+                      OutFieldsArray[0] = "OBJECTID";
+                      for (i = 1; i < configParams.length; i++) {
+                        OutFieldsArray[i] = configParams[i].fieldName;
+                      };
+
+debugger
+                      query.outFields = OutFieldsArray;
                       var queryTask = new QueryTask(urlServicio);
                       //var queryTask = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
                       queryTask.execute(query,addColumns);
