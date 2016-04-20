@@ -52,25 +52,28 @@ define([
         // Cargamos los valores si existen
 
 
-        headerParams = new Array();
-        fieldsParams = new Array();
+        tableParams = new Array();
+
         for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) { 
    
           var rowParams = document.getElementById("columnsSettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var rowFieldChild = rowParams.children[3];
-          headerParams[i] = rowHeaderChild.children[0];
-          fieldsParams[i] = rowFieldChild.children[0];
-
-
-          if (options && options.headerParams[i]) {
-            this.headerParams[i].set('value', options.headerParams[i]);
-
+          var headerName = rowHeaderChild.children[0].value;
+          var fieldName = rowFieldChild.children[0].value;
+          tableParams[i] = {
+            header:headerName,
+            fieldName:fieldName
           };
-          if (options && options.fieldsParams[i]) {
-            this.fieldsParams[i].set('value', options.fieldsParams[i]);
 
-          };
+          // if (options && options.tableParams && options.tableParams[i]) {
+          //   this.headerParams[i].set('value', options.headerParams[i]);
+
+          // };
+          // if (options && options.fieldsParams[i]) {
+          //   this.fieldsParams[i].set('value', options.fieldsParams[i]);
+
+          // };
         };
 
 
@@ -81,28 +84,23 @@ define([
       // Al cerrar la configuración del widget
       getConfig: function() {
         var options = this.config.inPanelVar.params;
-
+        options.tableConfigParams = new Array();
         // Almacenamos los valores
         for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) {
           var rowParams = document.getElementById("columnsSettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var rowFieldChild = rowParams.children[3];
-          headerParams[i] = rowHeaderChild.children[0];
-          fieldsParams[i] = rowFieldChild.children[0];
-
-
-          if (options && options.headerParams[i]) {
-            this.headerParams[i].set('value', options.headerParams[i]);
-
-          };
-          if (options && options.fieldsParams[i]) {
-            this.fieldsParams[i].set('value', options.fieldsParams[i]);
-
+          var headerName = rowHeaderChild.children[0].value;
+          var fieldName = rowFieldChild.children[0].value;
+          tableParams[i] = {
+            header:headerName,
+            fieldName:fieldName
           };
 
-        options.headerParams[i] = this.headerParams[i].get("value");
-        options.fieldsParams[i] = this.fieldsParams[i].get("value");
-        };
+
+        options.tableConfigParams[i] = tableParams[i];
+        //options.fieldsParams[i] = tableParams[i].getAttribute("fieldName");
+         };
         return this.config;
       },
 

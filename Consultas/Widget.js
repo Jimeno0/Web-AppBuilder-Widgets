@@ -31,17 +31,6 @@ define(['dojo/_base/declare',
       startup: function() {
 
 
-
-
-            //Atributos definidos por el usuario
-            //--------------------------------
-            attribute1 = this.config.inPanelVar.params.firstRowName;
-            attribute2 = this.config.inPanelVar.params.secondRowName;
-            attribute3 = this.config.inPanelVar.params.thirdRowName;
-            attribute4 = this.config.inPanelVar.params.fourthRowName;
-            attribute5 = this.config.inPanelVar.params.fifthRowName;
-
-
               //Creamos la simbologia que emplearan nuestras rutas
               sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([255,0,0]),4);
               //Creamos el infowindow de nuestro widget
@@ -79,20 +68,15 @@ define(['dojo/_base/declare',
 
               };
 
-              //CABECERA DE LA TABLA, EN FUNCION DE LO QUE ESCRIBA EL USUARIO
-              //----------------------------------------------------------------
-              var tr = domConstruct.create("tr", {}, "cabeceraTabla"),
-              td = domConstruct.create("td", {}, tr),
-              l = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label1row}, td, 'first'),
-              td1 = domConstruct.create("td", {}, tr),
-              l1 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label2row}, td1, 'first'),
-              td11 = domConstruct.create("td", {}, tr),
-              l11 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label3row}, td11, 'first'),
-              td12 = domConstruct.create("td", {}, tr),
-              l12 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.label4row}, td12, 'first'),
-              td13 = domConstruct.create("td", {}, tr),
-              l11 = domConstruct.create("span", {innerHTML:this.config.inPanelVar.params.labelrow}, td13, 'first');
+              var cabecera = document.getElementById("cabeceraTabla").insertRow(0);
 
+              for (i = 0; i < this.config.inPanelVar.params.tableConfigParams.length; i++) {
+
+                  var contenidoCabecera = this.config.inPanelVar.params.tableConfigParams[i].header;
+
+                  var newCell = cabecera.insertCell(i);
+                  newCell.innerHTML = contenidoCabecera;
+              };
       },
 
       onOpen: function(){
