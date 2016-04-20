@@ -50,7 +50,9 @@ define([
         var options = config.inPanelVar.params;
 
         // Cargamos los valores si existen
-
+        if (options && options.urlServicio) {
+            this.urlServicio.set('value', options.urlServicio);
+        };
 
         tableParams = new Array();
 
@@ -83,7 +85,9 @@ define([
 
       // Al cerrar la configuración del widget
       getConfig: function() {
+        debugger
         var options = this.config.inPanelVar.params;
+        options.urlServicio = this.urlServicio.get("value");
         options.tableConfigParams = new Array();
         // Almacenamos los valores
         for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) {
@@ -99,7 +103,6 @@ define([
 
 
         options.tableConfigParams[i] = tableParams[i];
-        //options.fieldsParams[i] = tableParams[i].getAttribute("fieldName");
          };
         return this.config;
       },

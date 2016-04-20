@@ -101,10 +101,12 @@ define(['dojo/_base/declare',
 
 
                       var OutFieldsArray = new Array();
-                      OutFieldsArray[0] = "OBJECTID";
-                      for (i = 1; i < configParams.length; i++) {
+                      
+                      for (i = 0; i < configParams.length; i++) {
                         OutFieldsArray[i] = configParams[i].fieldName;
                       };
+                      OutFieldsArray.push("OBJECTID");
+                      
 
 debugger
                       query.outFields = OutFieldsArray;
@@ -115,23 +117,41 @@ debugger
                       addColumns2=addColumns;
                       //Funcion para que nos escriba las columnas de nuestra tabla
                       function addColumns(fsResult){
+                            console.log("addColumns");
                             var features = fsResult.features;
                             //Funcion que nos recorre todos los elementos
                             arrayUtils.forEach(features, function(feature){
 
+                                    // var featureRow = document.getElementById("rutasUsers").insertRow(0);
+                                    var featureRow = domConstruct.create("tr", {'onClick' : "funciOnClick('" + feature.attributes["OBJECTID"] + "');"}, "rutasUsers");
+                                    for (i = 0; i < configParams.length; i++) {
+                                        var attName = configParams[i].fieldName;
+                                        var contenidoRow = feature.attributes[attName];
+                                        
+
+                                        var newCell = featureRow.insertCell(i);
+                                        newCell.innerHTML = contenidoRow;
+                                    };
+
+
+
+
+
+
+
                                       //Creamos y rellenamos todos los elementos de nuestra tabla
                                       //En cada fila establecemos que el evento onclick llame a la funcion funcionAlerta definida anteriormente
-                                      var tr = domConstruct.create("tr", {'onClick' : "funciOnClick('" + feature.attributes["OBJECTID"] + "');"}, "rutasUsers"),
-                                      td = domConstruct.create("td", {}, tr),
-                                      l = domConstruct.create("span", {innerHTML:feature.attributes[attribute1]}, td, 'first'),
-                                      td1 = domConstruct.create("td", {}, tr),
-                                      l1 = domConstruct.create("span", {innerHTML:feature.attributes[attribute2]}, td1, 'first'),
-                                      td11 = domConstruct.create("td", {}, tr),
-                                      l11 = domConstruct.create("span", {innerHTML:feature.attributes[attribute3]}, td11, 'first'),
-                                      td12 = domConstruct.create("td", {}, tr),
-                                      l12 = domConstruct.create("span", {innerHTML:feature.attributes[attribute4]}, td12, 'first'),
-                                      td13 = domConstruct.create("td", {}, tr),
-                                      l11 = domConstruct.create("span", {innerHTML:feature.attributes[attribute5]}, td13, 'first');
+                                      // var tr = domConstruct.create("tr", {'onClick' : "funciOnClick('" + feature.attributes["OBJECTID"] + "');"}, "rutasUsers"),
+                                      // td = domConstruct.create("td", {}, tr),
+                                      // l = domConstruct.create("span", {innerHTML:feature.attributes[attribute1]}, td, 'first'),
+                                      // td1 = domConstruct.create("td", {}, tr),
+                                      // l1 = domConstruct.create("span", {innerHTML:feature.attributes[attribute2]}, td1, 'first'),
+                                      // td11 = domConstruct.create("td", {}, tr),
+                                      // l11 = domConstruct.create("span", {innerHTML:feature.attributes[attribute3]}, td11, 'first'),
+                                      // td12 = domConstruct.create("td", {}, tr),
+                                      // l12 = domConstruct.create("span", {innerHTML:feature.attributes[attribute4]}, td12, 'first'),
+                                      // td13 = domConstruct.create("td", {}, tr),
+                                      // l11 = domConstruct.create("span", {innerHTML:feature.attributes[attribute5]}, td13, 'first');
                             });
                       };
                       //Funcion que se ejecuta al clicar sobre un elemento de la tabla para dibujar la ruta clicada
@@ -167,7 +187,7 @@ debugger
               //Definimos la query segun los parametros que le pasemos a traves de las funciones definidas despues
               var query = new Query();
               query.where =this.dificultad +" AND " + this.distancia + " AND " + this.tiempo;
-              query.outFields = [attribute1,attribute2,attribute3,attribute4,attribute5,"OBJECTID"];
+              query.outFields = ["OBJECTID"];
               query.returnGeometry = true;
               var queryTask = new QueryTask(urlServicio);
               //Al ejecutarla llamamos a las funciones definidas anteriormente para rellenar la tabla con la información de las rutas 
