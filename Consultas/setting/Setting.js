@@ -120,18 +120,30 @@ define([
 
         //Almacenamos los valores de los botones
         for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
-
+debugger
           var rowParams = document.getElementById("querySettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var headerName = rowHeaderChild.children[0].value;
+          //recorremos la tabla dentro de cada row para extraer los valores
+          for (n = 0; n < rowParams.children[4].children.length; n++) {
+            var rowLi = rowParams.children[4].children[n];
+            var rowNameli = rowLi.children[1].children[0].value;
+            var rowQuery = rowLi.children[3].children[0].value;
+            queryliParams[n] = {
+              liName:rowNameli,
+              query:rowQuery
+
+            };
+
+          };
 
 
-
+//////////////////////////////////////////////
 
 
           queryParams[i] = {
             buttonName:headerName,
-            arrayTest:[1,2,3,4]
+            arrayTest:queryliParams
 
           };
 
@@ -167,8 +179,8 @@ define([
           document.getElementById(parentId).removeChild(elemtToDelete3);
         };        
         funciAddQueryLi = function(counter){
-          var elemtToDelete3 = document.getElementById("idQ"+counter);
-          console.log(elemtToDelete3);
+          var elemtToDelete3 = document.getElementById("idTableli"+counter);
+
             var tr = domConstruct.create("tr",{id:"idQli"+that._algo.counterQli}),
             td = domConstruct.create("td", {}, tr),
             l = domConstruct.create("span", {innerHTML:"Nombre de consulta:"}, td, 'first'),
@@ -273,7 +285,12 @@ define([
                   innerHTML:"Añadir consulta",
                   style: {},
                   'onClick' : "funciAddQueryLi("+this._algo.counterQMenu+");"
-                }, td14, 'first');
+                }, td14, 'first'),
+            td15 = domConstruct.create("table", {
+              id:"idTableli"+this._algo.counterQMenu,
+              style: { "border": "1px solid #000" }
+
+              }, tr),
 
             this._algo.counterQMenu++;
 
