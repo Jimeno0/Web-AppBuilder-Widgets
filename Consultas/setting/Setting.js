@@ -55,6 +55,8 @@ define([
         };
 
         tableParams = new Array();
+        queryParams = new Array();
+        queryliParams = new Array();
 
         for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) { 
    
@@ -68,16 +70,22 @@ define([
             fieldName:fieldName
           };
 
-          // if (options && options.tableParams && options.tableParams[i]) {
-          //   this.headerParams[i].set('value', options.headerParams[i]);
-
-          // };
-          // if (options && options.fieldsParams[i]) {
-          //   this.fieldsParams[i].set('value', options.fieldsParams[i]);
-
-          // };
+        options.tableConfigParams[i] = tableParams[i];
+  
         };
+        for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
 
+          var rowParams = document.getElementById("querySettings").children[i];
+          var rowHeaderChild = rowParams.children[1];
+          var headerName = rowHeaderChild.children[0].value;
+          queryParams[i] = {
+            buttonName:headerName,
+            arrayTest:[1,2,3,4]
+          };
+
+
+        options.queryConfigParams[i] = queryParams[i];
+         };
 
 
 
@@ -89,8 +97,11 @@ define([
         var options = this.config.inPanelVar.params;
         options.urlServicio = this.urlServicio.get("value");
         options.tableConfigParams = new Array();
-        // Almacenamos los valores
+        options.queryConfigParams = new Array();
+
+        // Almacenamos los valores de titulo y contenido de cada columna de la tabla
         for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) {
+
           var rowParams = document.getElementById("columnsSettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var rowFieldChild = rowParams.children[3];
@@ -104,6 +115,31 @@ define([
 
         options.tableConfigParams[i] = tableParams[i];
          };
+
+
+
+        //Almacenamos los valores de los botones
+        for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
+
+          var rowParams = document.getElementById("querySettings").children[i];
+          var rowHeaderChild = rowParams.children[1];
+          var headerName = rowHeaderChild.children[0].value;
+
+
+
+
+
+          queryParams[i] = {
+            buttonName:headerName,
+            arrayTest:[1,2,3,4]
+
+          };
+
+
+        options.queryConfigParams[i] = queryParams[i];
+         };
+
+
         return this.config;
       },
 
@@ -115,7 +151,7 @@ define([
         this._algo.counterQMenu = 0;
         this._algo.counterQli = 0;
 
-        that = this;
+        var that = this;
 
         funciBorrarRow = function(counter){
           var elemtToDelete = document.getElementById("id"+counter);
@@ -127,18 +163,21 @@ define([
         };
         funciBorrarQliRow = function(counter){
           var elemtToDelete3 = document.getElementById("idQli"+counter);
-          document.getElementById("idQ0"+this._algo.counterQMenu).removeChild(elemtToDelete3);
+          var parentId = elemtToDelete3.parentElement.getAttribute('id');
+          document.getElementById(parentId).removeChild(elemtToDelete3);
         };        
         funciAddQueryLi = function(counter){
           var elemtToDelete3 = document.getElementById("idQ"+counter);
           console.log(elemtToDelete3);
             var tr = domConstruct.create("tr",{id:"idQli"+that._algo.counterQli}),
             td = domConstruct.create("td", {}, tr),
-            l = domConstruct.create("span", {innerHTML:"Nombre Menú desplegable:"}, td, 'first'),
+            l = domConstruct.create("span", {innerHTML:"Nombre de consulta:"}, td, 'first'),
             td1 = domConstruct.create("td", {}, tr),
             l1 = domConstruct.create("input", {}, td1, 'first'),
             td11 = domConstruct.create("td", {}, tr),
-            l11 = domConstruct.create("span", {innerHTML:"Seleccione campo:"}, td11, 'first');
+            l11 = domConstruct.create("span", {innerHTML:"introduzca query:"}, td11, 'first');
+            td12 = domConstruct.create("td", {}, tr),
+            l12 = domConstruct.create("input", {}, td12, 'first');
 
             td13 = domConstruct.create("td", {}, tr),
             l13 = domConstruct.create("button", {
