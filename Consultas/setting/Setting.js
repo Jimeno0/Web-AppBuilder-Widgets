@@ -72,6 +72,7 @@ define([
         options.tableConfigParams[i] = tableParams[i];
   
         };
+        //Faltan los query settings
         for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
 
           var rowParams = document.getElementById("querySettings").children[i];
@@ -167,22 +168,16 @@ debugger
         var that = this;
 
         funciBorrarRow = function(counter){
-          var elemtToDelete = document.getElementById("id"+counter);
-          document.getElementById("columnsSettings").removeChild(elemtToDelete);
+          var parentId = counter.parentElement.getAttribute('id');
+          document.getElementById(parentId).removeChild(counter);
         };
-        funciBorrarQMenuRow = function(counter){
-          var elemtToDelete2 = document.getElementById("idQ"+counter);
-          document.getElementById("querySettings").removeChild(elemtToDelete2);
-        };
-        funciBorrarQliRow = function(counter){
-          var elemtToDelete3 = document.getElementById("idQli"+counter);
-          var parentId = elemtToDelete3.parentElement.getAttribute('id');
-          document.getElementById(parentId).removeChild(elemtToDelete3);
-        };        
+            
         funciAddQueryLi = function(counter){
-          var elemtToDelete3 = document.getElementById("idTableli"+counter);
+          var parentTable = document.getElementById("idTableli"+counter);
+          var idElemento = "idQli"+that._algo.counterQli;
 
-            var tr = domConstruct.create("tr",{id:"idQli"+that._algo.counterQli}),
+
+            var tr = domConstruct.create("tr",{id:idElemento}),
             td = domConstruct.create("td", {}, tr),
             l = domConstruct.create("span", {innerHTML:"Nombre de consulta:"}, td, 'first'),
             td1 = domConstruct.create("td", {}, tr),
@@ -196,9 +191,9 @@ debugger
             l13 = domConstruct.create("button", {
                   innerHTML:"Eliminar",
                   style: { "background-color": "red" },
-                  'onClick' : "funciBorrarQliRow("+that._algo.counterQli+");"
+                  'onClick' : "funciBorrarRow("+idElemento+");"
                 }, td13, 'first');
-            elemtToDelete3.appendChild(tr);
+            parentTable.appendChild(tr);
             that._algo.counterQli++;
 
 
@@ -221,8 +216,9 @@ debugger
         );
       },
       funciAddRow: function(){
+        var idElemento = "id"+this._algo.counter;
         //document.getElementById("columnsSettings").innerHTML ='<tr><td>....</td></tr>'
-         var tr = domConstruct.create("tr",{id:"id"+this._algo.counter}),
+         var tr = domConstruct.create("tr",{id:idElemento}),
             td = domConstruct.create("td", {}, tr),
             l = domConstruct.create("span", {innerHTML:"Encabezado: "}, td, 'first'),
             td1 = domConstruct.create("td", {}, tr),
@@ -240,7 +236,7 @@ debugger
             l13 = domConstruct.create("button", {
                   innerHTML:"Eliminar",
                   style: { "background-color": "red" },
-                  'onClick' : "funciBorrarRow("+this._algo.counter+");"
+                  'onClick' : "funciBorrarRow("+idElemento+");"
                 }, td13, 'first');
 
             this._algo.counter++;
@@ -249,25 +245,10 @@ debugger
       },
 
       funciAddQueryMenu: function(){
-        // var parametroDePrueba;
-        // console.log("funciAddQueryMenu");
-        // var queryRow = document.getElementById("querySettings").insertRow(0);
 
-        // var queryMenuLabel = queryRow.insertCell(0);
-        // queryMenuLabel.innerHTML = "Nombre Menú desplegable:";
+        var idElemento = "idQ"+this._algo.counterQMenu;
 
-        // var queryMenuInput = queryRow.insertCell(1);
-        // queryMenuInput.innerHTML = "<input></input>";
-
-        // var addQueryBtn = queryRow.insertCell(2);
-        // addQueryBtn.innerHTML = '<input type="button" data-dojo-attach-event="onclick:funciAddQueryLi" value="Añadir consulta al menu"></input>';
-
-        // var addQueryBtn2 = domConstruct.create("button", {
-        //           innerHTML:"Añadir query",
-        //           'onClick' : "funciAddQueryLi("+parametroDePrueba+");"
-        //         }, addQueryBtn, 'first');
-
-         var tr = domConstruct.create("tr",{id:"idQ"+this._algo.counterQMenu}),
+         var tr = domConstruct.create("tr",{id:idElemento}),
             td = domConstruct.create("td", {}, tr),
             l = domConstruct.create("span", {innerHTML:"Nombre Menú desplegable:"}, td, 'first'),
             td1 = domConstruct.create("td", {}, tr),
@@ -278,7 +259,7 @@ debugger
             l13 = domConstruct.create("button", {
                   innerHTML:"Eliminar",
                   style: { "background-color": "red" },
-                  'onClick' : "funciBorrarQMenuRow("+this._algo.counterQMenu+");"
+                  'onClick' : "funciBorrarRow("+idElemento+");"
                 }, td13, 'first');
 
             td14 = domConstruct.create("td", {}, tr),
