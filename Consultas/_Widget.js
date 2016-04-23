@@ -165,29 +165,7 @@ debugger
 ////////////////
                       for (i = 0; i < queyconfigParams.length; i++) {
                                 var btnName = queyconfigParams[i].buttonName;
-                                var dropDiv = domConstruct.create("div", {
-                                          'class':"dropdown"
-                                          }, "queryBtnsDiv");
-                                var queryBtn = domConstruct.create("button", {
-                                          class:"btn btn-default dropdown-toggle",
-                                          'innerHTML':btnName,
-                                          'data-toggle':"dropdown",
-                                          'aria-haspopup':"true",
-                                          'aria-expanded':"false"
-                                            }, dropDiv);
-                                var spanBtn = domConstruct.create("span", {class:"caret"}, queryBtn);
-                                var ulBtn = domConstruct.create("ul", {class:"dropdown-menu"}, dropDiv);
-                                for (n = 0; n < queyconfigParams[i].arrayTest.length; n++) {
-                                  var liName = queyconfigParams[i].arrayTest[n].liName;
-
-                                  var liBtn = domConstruct.create("li", {}, ulBtn);
-                                  var aLiBtn = domConstruct.create("a", {
-                                          'innerHTML':liName
-                                          }, liBtn);
-
-
-                                };
-
+                                var queryBtn = domConstruct.create("button", {'value':btnName}, "queryBtnsDiv");
                       };
 
 

@@ -56,7 +56,6 @@ define([
 
         tableParams = new Array();
         queryParams = new Array();
-        queryliParams = new Array();
 
         for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) { 
    
@@ -93,7 +92,7 @@ define([
 
       // Al cerrar la configuración del widget
       getConfig: function() {
-        debugger
+
         var options = this.config.inPanelVar.params;
         options.urlServicio = this.urlServicio.get("value");
         options.tableConfigParams = new Array();
@@ -124,6 +123,8 @@ debugger
           var rowParams = document.getElementById("querySettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var headerName = rowHeaderChild.children[0].value;
+          var  queryliParams = new Array();
+
           //recorremos la tabla dentro de cada row para extraer los valores
           for (n = 0; n < rowParams.children[4].children.length; n++) {
             var rowLi = rowParams.children[4].children[n];
