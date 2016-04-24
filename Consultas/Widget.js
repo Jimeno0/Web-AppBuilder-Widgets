@@ -85,6 +85,8 @@ define(['dojo/_base/declare',
 
       onOpen: function(){
 
+
+debugger
                       this.inherited(arguments);
                       //Funcion para limpiar el contenido existente en la tabla
                       var node = document.getElementById('rutasUsers');
@@ -95,6 +97,7 @@ define(['dojo/_base/declare',
                       mapa = this.map;
                       urlServicio = this.config.inPanelVar.params.urlServicio;
                       funciOnClick = funciOnClick2;
+                      funcionQuery = funcionQuery2;
                       //Query que nos devuelve todos los elementos de la feature para que siempre que abramos el  widget nos dibuje toda la tabla
                       var query = new Query();
                       query.where ="1=1";
@@ -108,7 +111,6 @@ define(['dojo/_base/declare',
                       OutFieldsArray.push("OBJECTID");
                       
 
-debugger
                       query.outFields = OutFieldsArray;
                       var queryTask = new QueryTask(urlServicio);
                       //var queryTask = new QueryTask('http://localhost:6080/arcgis/rest/services/Proyecto/ShareRoutes/MapServer/0');
@@ -132,15 +134,10 @@ debugger
                                         var newCell = featureRow.insertCell(i);
                                         newCell.innerHTML = contenidoRow;
                                     };
-
-
-
-
-
-
-
                             });
                       };
+
+
                       //Funcion que se ejecuta al clicar sobre un elemento de la tabla para dibujar la ruta clicada
                       function funciOnClick2(e){
                               //Limpiamos la capa de graficos del mapa
@@ -162,11 +159,20 @@ debugger
                                       console.log(rutaGraphic);
                               };
                       };
-////////////////
+                      //¿REALIAR LA QUERY AQUI CON LOS PARAMETROS DE LA LI?¿ALMACENAR PARA LANZARLA DESDE
+                      //LA FUNCION CONSULTA?
+                      function funcionQuery2(e){
+                              console.log(e);
+
+                      };
+
+
+                      //Creamos los botones y los menus depleglabes de las consultas
+
                       for (i = 0; i < queyconfigParams.length; i++) {
                                 var btnName = queyconfigParams[i].buttonName;
                                 var dropDiv = domConstruct.create("div", {
-                                          'class':"dropdown"
+                                          'class':"dropdown btn-group"
                                           }, "queryBtnsDiv");
                                 var queryBtn = domConstruct.create("button", {
                                           class:"btn btn-default dropdown-toggle",
@@ -179,25 +185,16 @@ debugger
                                 var ulBtn = domConstruct.create("ul", {class:"dropdown-menu"}, dropDiv);
                                 for (n = 0; n < queyconfigParams[i].arrayTest.length; n++) {
                                   var liName = queyconfigParams[i].arrayTest[n].liName;
-
+                                  var liQuery = queyconfigParams[i].arrayTest[n].query;
                                   var liBtn = domConstruct.create("li", {}, ulBtn);
                                   var aLiBtn = domConstruct.create("a", {
-                                          'innerHTML':liName
+                                          'innerHTML':liName,
+                                          'onClick' : "funcionQuery('" + liQuery + "');"
+                                          // 'data-dojo-attach-event':"onclick:funcionQueryliParams('"+liQuery+"')"
                                           }, liBtn);
-
-
                                 };
 
                       };
-
-
-
-
-
-
-
-
-
        },
 
        //Funcion que se ejecutara al clicar sobre el boton de consulta
@@ -219,48 +216,9 @@ debugger
 
       },
       //Funciones que definen el parámetro dificultad de la query
-      funcionFacil:function(){
-          this.dificultad ="Dificultad=1";
-      },
-      funcionMedia:function(){
-          this.dificultad ="Dificultad=2";
-      },
-      funcionTrialera:function(){
-          this.dificultad ="Dificultad=3";
-      },
-      funcionTodasDificul:function(){
-          this.dificultad= "1=1";
-      },
 
 
-      //Funciones que definen el parámetro distancia de la query
-      funcion5km:function(){
-          this.distancia ="SHAPE.STLength()<5000";
-      },
-      funcion10km:function(){
-          this.distancia ="SHAPE.STLength()>=5000 AND SHAPE.STLength()<10000";
-      },
-      funcionMas10km:function(){
-          this.distancia ="SHAPE.STLength()>=10000";
-      },
-      funcionTodasDist:function(){
-          this.distancia= "1=1";
-      },
 
-
-      //Funciones que definen el parámetro tiempo de la query
-      funcion15Min:function(){
-          this.tiempo ="Minutos<15";
-      },
-      funcion30Min:function(){
-          this.tiempo ="Minutos>=15 AND Minutos<30";
-      },
-      funcionMas30Min:function(){
-          this.tiempo ="Minutos>=30";
-      },
-      funcionTodasMin:function(){
-          this.tiempo= "1=1";
-      },
 
       //Establecemos que al cerrar el widget se borre la capa de graficos y los parametros dela query vuelvan a los vamores por defecto
        onClose: function(){

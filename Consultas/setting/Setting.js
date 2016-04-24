@@ -72,22 +72,34 @@ define([
         options.tableConfigParams[i] = tableParams[i];
   
         };
-        //Faltan los query settings
+
+        // Definir ara querySttings
         for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
 
           var rowParams = document.getElementById("querySettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var headerName = rowHeaderChild.children[0].value;
+          var  queryliParams = new Array();
+
+          //recorremos la tabla dentro de cada row para extraer los valores
+          for (n = 0; n < rowParams.children[4].children.length; n++) {
+            var rowLi = rowParams.children[4].children[n];
+            var rowNameli = rowLi.children[1].children[0].value;
+            var rowQuery = rowLi.children[3].children[0].value;
+            queryliParams[n] = {
+              liName:rowNameli,
+              query:rowQuery
+            };
+          };
           queryParams[i] = {
             buttonName:headerName,
-            arrayTest:[1,2,3,4]
+            arrayTest:queryliParams
           };
+          options.queryConfigParams[i] = queryParams[i];
+        };
 
 
-        options.queryConfigParams[i] = queryParams[i];
-         };
-
-
+        return this.config;
 
       },
 
@@ -120,7 +132,7 @@ define([
 
         //Almacenamos los valores de los botones
         for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
-debugger
+
           var rowParams = document.getElementById("querySettings").children[i];
           var rowHeaderChild = rowParams.children[1];
           var headerName = rowHeaderChild.children[0].value;
@@ -134,31 +146,17 @@ debugger
             queryliParams[n] = {
               liName:rowNameli,
               query:rowQuery
-
             };
-
           };
-
-
-//////////////////////////////////////////////
-
-
           queryParams[i] = {
             buttonName:headerName,
             arrayTest:queryliParams
-
           };
-
-
-        options.queryConfigParams[i] = queryParams[i];
-         };
-
-
+          options.queryConfigParams[i] = queryParams[i];
+        };
         return this.config;
       },
-
       comprobarUrl: function(){
-
         var urlJson = this.urlServicio.value+"?f=json";
         fields = this._algo.fields;
         this._algo.counter = 0;
@@ -175,28 +173,23 @@ debugger
         funciAddQueryLi = function(counter){
           var parentTable = document.getElementById("idTableli"+counter);
           var idElemento = "idQli"+that._algo.counterQli;
-
-
-            var tr = domConstruct.create("tr",{id:idElemento}),
-            td = domConstruct.create("td", {}, tr),
-            l = domConstruct.create("span", {innerHTML:"Nombre de consulta:"}, td, 'first'),
-            td1 = domConstruct.create("td", {}, tr),
-            l1 = domConstruct.create("input", {}, td1, 'first'),
-            td11 = domConstruct.create("td", {}, tr),
-            l11 = domConstruct.create("span", {innerHTML:"introduzca query:"}, td11, 'first');
-            td12 = domConstruct.create("td", {}, tr),
-            l12 = domConstruct.create("input", {}, td12, 'first');
-
-            td13 = domConstruct.create("td", {}, tr),
-            l13 = domConstruct.create("button", {
+          var tr = domConstruct.create("tr",{id:idElemento}),
+          td = domConstruct.create("td", {}, tr),
+          l = domConstruct.create("span", {innerHTML:"Nombre de consulta:"}, td, 'first'),
+          td1 = domConstruct.create("td", {}, tr),
+          l1 = domConstruct.create("input", {}, td1, 'first'),
+          td11 = domConstruct.create("td", {}, tr),
+          l11 = domConstruct.create("span", {innerHTML:"introduzca query:"}, td11, 'first');
+          td12 = domConstruct.create("td", {}, tr),
+          l12 = domConstruct.create("input", {}, td12, 'first');
+          td13 = domConstruct.create("td", {}, tr),
+          l13 = domConstruct.create("button", {
                   innerHTML:"Eliminar",
                   style: { "background-color": "red" },
                   'onClick' : "funciBorrarRow("+idElemento+");"
                 }, td13, 'first');
-            parentTable.appendChild(tr);
-            that._algo.counterQli++;
-
-
+          parentTable.appendChild(tr);
+          that._algo.counterQli++;
         };
 
         request(urlJson, {
