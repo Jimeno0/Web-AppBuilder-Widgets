@@ -19,6 +19,9 @@ define([
     'jimu/BaseWidgetSetting',
     "dojo/request",
     "dojo/dom-construct",
+    "dojo/query",
+    'dojo/dom',
+    'dojo/on', 
     'dijit/form/ValidationTextBox',
     'dijit/form/NumberTextBox',
     'dijit/form/TextBox',
@@ -27,7 +30,7 @@ define([
   function(
     declare,
     _WidgetsInTemplateMixin,
-    BaseWidgetSetting,request,domConstruct) {
+    BaseWidgetSetting,request,domConstruct,query,dom,on) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       // Declaramos la clase CSS para los estilos
       baseClass: 'jimu-widget-in-panel-setting',
@@ -58,6 +61,7 @@ define([
 
       // On close widget config
       getConfig: function() {
+
 
         var options = this.config.inPanelVar.params;
         options.urlServicio = this.urlServicio.get("value");
@@ -92,8 +96,8 @@ define([
           var  queryliParams = new Array();
 
           //recorremos la tabla dentro de cada row para extraer los valores
-          for (n = 0; n < rowParams.children[4].children.length; n++) {
-            var rowLi = rowParams.children[4].children[n];
+          for (n = 0; n < rowParams.children[4].children[0].children.length; n++) {
+            var rowLi = rowParams.children[4].children[0].children[n];
             var rowNameli = rowLi.children[1].children[0].value;
             var rowQuery = rowLi.children[3].children[0].value;
             queryliParams[n] = {
@@ -124,8 +128,12 @@ define([
           var parentId = counter.parentElement.getAttribute('id');
           document.getElementById(parentId).removeChild(counter);
         };
+
+        functDeleteRow = function(){
+          this.parentElement.parentElement.remove();
+        };
             
-        funciAddQueryLi = function(counter){
+        funciAddQueryLiOld = function(counter){
           var parentTable = document.getElementById("idTableli"+counter);
           var idElemento = "idQli"+that._algo.counterQli;
           var tr = domConstruct.create("tr",{id:idElemento}),
@@ -139,13 +147,52 @@ define([
           l12 = domConstruct.create("input", {}, td12, 'first');
           td13 = domConstruct.create("td", {}, tr),
           l13 = domConstruct.create("button", {
-                  innerHTML:"Eliminar",
+                  innerHTML:"Delete",
                   style: { "background-color": "red" },
                   'onClick' : "funciBorrarRow("+idElemento+");"
                 }, td13, 'first');
           parentTable.appendChild(tr);
           that._algo.counterQli++;
         };
+
+
+        funciAddQueryLi = function(){
+          var querysTable = this.parentElement.parentElement.children[4].children[0];
+          var idElemento = "idQli"+that._algo.counterQli;
+
+          var row = domConstruct.toDom('<tr id="'+idElemento+'">\
+                                          <td>\
+                                            Query name:\
+                                          </td>\
+                                          <td>\
+                                            <input>\
+                                          </td>\
+                                          <td>\
+                                            Insert query:\
+                                          </td>\
+                                          <td>\
+                                            <input>\
+                                          </td>\
+                                          <td class="btnDeleteClass">\
+                                          </td>\
+                                        </tr>'); 
+
+        var nl = query(".btnDeleteClass",row);
+        var btnDelete =  domConstruct.toDom("<button>\
+                                               Delete\
+                                             </button>");
+
+        on(btnDelete, "click", functDeleteRow);
+
+
+          querysTable.appendChild(row);
+          nl[0].appendChild(btnDelete);
+
+          that._algo.counterQli++;
+        };
+
+
+
 
         request(urlJson, {
           headers: {
@@ -165,31 +212,52 @@ define([
       },
       funciAddRow: function(){
         var idElemento = "id"+this._algo.counter;
-        //document.getElementById("columnsSettings").innerHTML ='<tr><td>....</td></tr>'
-         var tr = domConstruct.create("tr",{id:idElemento}),
-            td = domConstruct.create("td", {}, tr),
-            l = domConstruct.create("span", {innerHTML:"Encabezado: "}, td, 'first'),
-            td1 = domConstruct.create("td", {}, tr),
-            l1 = domConstruct.create("input", {id:"input"+this._algo.counter}, td1, 'first'),
-            td11 = domConstruct.create("td", {}, tr),
-            l11 = domConstruct.create("span", {innerHTML:"Seleccione campo:"}, td11, 'first'),
-            td12 = domConstruct.create("td", {}, tr),
-            l12 = domConstruct.create("select", {id:"select"+this._algo.counter}, td12, 'first');
+        var slectId = "select"+this._algo.counter;
+
+        var row = domConstruct.toDom('<tr id="'+idElemento+'">\
+                                        <td>\
+                                          Column header:\
+                                        </td>\
+                                        <td>\
+                                          <input>\
+                                        </td>\
+                                        <td>\
+                                          Column header:\
+                                        </td>\
+                                        <td>\
+                                          <select class="selectClass">\
+                                          </select>\
+                                        </td>\
+                                        <td class="btnDeleteClass">\
+                                        </td>\
+                                      </tr>'); 
+
+            var nl2 = query(".selectClass",row);
 
             for (i = 0; i < this._algo.fields.length; i++) { 
-                var elemento = "l12"+i.toString(); 
-                elemento = domConstruct.create("option", {innerHTML:this._algo.fields[i].name}, l12, 'first');
+              var fieldOption =  domConstruct.toDom("<option>\
+                                                       "+this._algo.fields[i].name+"\
+                                                     </option>");
+              nl2[0].appendChild(fieldOption);
             };
-            td13 = domConstruct.create("td", {}, tr),
-            l13 = domConstruct.create("button", {
-                  innerHTML:"Eliminar",
-                  style: { "background-color": "red" },
-                  'onClick' : "funciBorrarRow("+idElemento+");"
-                }, td13, 'first');
 
-            this._algo.counter++;
 
-            document.getElementById("columnsSettings").appendChild(tr);
+
+                    // var node = dom.byId(idElemento);
+        var nl = query(".btnDeleteClass",row);
+        var btnDelete =  domConstruct.toDom("<button>\
+                                               Delete\
+                                             </button>");
+
+        on(btnDelete, "click", functDeleteRow);
+
+
+        this._algo.counterQMenu++;
+
+        document.getElementById("columnsSettings").appendChild(row);
+        nl[0].appendChild(btnDelete);
+
+
       },
 
       funciAddQueryMenu: function(){
@@ -197,52 +265,44 @@ define([
         var idElemento = "idQ"+this._algo.counterQMenu;
 
 
-        // var row = domConstruct.toDom("<tr id="+idElemento+">\
-        //                                 <td>\
-        //                                   Dropdown button name:\
-        //                                 </td>\
-        //                                 <td>\
-        //                                   <input>\
-        //                                 </td>\
-        //                               </tr>");
-        
 
 
+        var row = domConstruct.toDom('<tr id="'+idElemento+'">\
+                                        <td>\
+                                          Dropdown button name:\
+                                        </td>\
+                                        <td>\
+                                          <input>\
+                                        </td>\
+                                        <td class="btnDeleteClass">\
+                                        </td>\
+                                        <td class="btnAddQueryClass">\
+                                        </td>\
+                                        <td>\
+                                          <table style="border:1px solid #000;">\
+                                          </table>\
+                                        </td>\
+                                      </tr>');                                     
+                                      
+        // var node = dom.byId(idElemento);
+        var nl = query(".btnDeleteClass",row);
+        var nl2 = query(".btnAddQueryClass",row);
+        var btnDelete =  domConstruct.toDom("<button>\
+                                               Delete\
+                                             </button>");
+        var btnAddQuery =  domConstruct.toDom("<button>\
+                                               Add query element\
+                                             </button>"); 
+
+        on(btnDelete, "click", functDeleteRow);
+        on(btnAddQuery, "click", funciAddQueryLi);
 
 
-        // domConstruct.place(row, "example");
+        this._algo.counterQMenu++;
 
-
-         var tr = domConstruct.create("tr",{id:idElemento}),
-            td = domConstruct.create("td", {}, tr),
-            l = domConstruct.create("span", {innerHTML:"Nombre Menú desplegable:"}, td, 'first'),
-            td1 = domConstruct.create("td", {}, tr),
-            l1 = domConstruct.create("input", {}, td1, 'first'),
-
-
-            td13 = domConstruct.create("td", {}, tr),
-            l13 = domConstruct.create("button", {
-                  innerHTML:"Eliminar",
-                  style: { "background-color": "red" },
-                  'onClick' : "funciBorrarRow("+idElemento+");"
-                }, td13, 'first');
-
-            td14 = domConstruct.create("td", {}, tr),
-            l14 = domConstruct.create("button", {
-                  innerHTML:"Añadir consulta",
-                  style: {},
-                  'onClick' : "funciAddQueryLi("+this._algo.counterQMenu+");"
-                }, td14, 'first'),
-            td15 = domConstruct.create("table", {
-              id:"idTableli"+this._algo.counterQMenu,
-              style: { "border": "1px solid #000" }
-
-              }, tr),
-
-            this._algo.counterQMenu++;
-
-            document.getElementById("querySettings").appendChild(tr);
-
+        document.getElementById("querySettings").appendChild(row);
+        nl[0].appendChild(btnDelete);
+        nl2[0].appendChild(btnAddQuery);
 
 
 
