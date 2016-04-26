@@ -37,7 +37,7 @@ define([
         this.inherited(arguments);
         var config = this.config;
 
-        // Si no existe la configuración, la creamos
+        // if config doesnt exisist we create it
         config.inPanelVar = config.inPanelVar || {}
         config.inPanelVar.params = config.inPanelVar.params || {}
 
@@ -49,61 +49,14 @@ define([
         this.config = config;
         var options = config.inPanelVar.params;
 
-        // Cargamos los valores si existen
+        // Load service URL if exisits
         if (options && options.urlServicio) {
             this.urlServicio.set('value', options.urlServicio);
         };
-
-        tableParams = new Array();
-        queryParams = new Array();
-
-        for (i = 0; i < document.getElementById("columnsSettings").children.length; i++) { 
-   
-          var rowParams = document.getElementById("columnsSettings").children[i];
-          var rowHeaderChild = rowParams.children[1];
-          var rowFieldChild = rowParams.children[3];
-          var headerName = rowHeaderChild.children[0].value;
-          var fieldName = rowFieldChild.children[0].value;
-          tableParams[i] = {
-            header:headerName,
-            fieldName:fieldName
-          };
-
-        options.tableConfigParams[i] = tableParams[i];
-  
-        };
-
-        // Definir ara querySttings
-        for (i = 0; i < document.getElementById("querySettings").children.length; i++) {
-
-          var rowParams = document.getElementById("querySettings").children[i];
-          var rowHeaderChild = rowParams.children[1];
-          var headerName = rowHeaderChild.children[0].value;
-          var  queryliParams = new Array();
-
-          //recorremos la tabla dentro de cada row para extraer los valores
-          for (n = 0; n < rowParams.children[4].children.length; n++) {
-            var rowLi = rowParams.children[4].children[n];
-            var rowNameli = rowLi.children[1].children[0].value;
-            var rowQuery = rowLi.children[3].children[0].value;
-            queryliParams[n] = {
-              liName:rowNameli,
-              query:rowQuery
-            };
-          };
-          queryParams[i] = {
-            buttonName:headerName,
-            arrayTest:queryliParams
-          };
-          options.queryConfigParams[i] = queryParams[i];
-        };
-
-
         return this.config;
-
       },
 
-      // Al cerrar la configuración del widget
+      // On close widget config
       getConfig: function() {
 
         var options = this.config.inPanelVar.params;
@@ -157,6 +110,8 @@ define([
         return this.config;
       },
       comprobarUrl: function(){
+        tableParams = new Array();
+        queryParams = new Array();
         var urlJson = this.urlServicio.value+"?f=json";
         fields = this._algo.fields;
         this._algo.counter = 0;
@@ -240,6 +195,23 @@ define([
       funciAddQueryMenu: function(){
 
         var idElemento = "idQ"+this._algo.counterQMenu;
+
+
+        // var row = domConstruct.toDom("<tr id="+idElemento+">\
+        //                                 <td>\
+        //                                   Dropdown button name:\
+        //                                 </td>\
+        //                                 <td>\
+        //                                   <input>\
+        //                                 </td>\
+        //                               </tr>");
+        
+
+
+
+
+        // domConstruct.place(row, "example");
+
 
          var tr = domConstruct.create("tr",{id:idElemento}),
             td = domConstruct.create("td", {}, tr),

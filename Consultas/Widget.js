@@ -1,25 +1,23 @@
 define(['dojo/_base/declare',
- 'jimu/BaseWidget',
-  "esri/tasks/query",
-  "esri/tasks/QueryTask",
-  "dojo/dom-construct",
-  "dojo/_base/array", 
-  "dojo/dom",
-  "dojo/on",
-  "esri/layers/FeatureLayer",
+  'jimu/BaseWidget',
+  'esri/tasks/query',
+  'esri/tasks/QueryTask',
+  'dojo/dom-construct',
+  'dojo/_base/array', 
+  'dojo/dom',
+  'dojo/on',
+  'esri/layers/FeatureLayer',
   'esri/graphic',
-  "esri/symbols/SimpleMarkerSymbol",
+  'esri/symbols/SimpleMarkerSymbol',
   'esri/symbols/SimpleLineSymbol',
-  "esri/symbols/SimpleFillSymbol",
+  'esri/symbols/SimpleFillSymbol',
   'esri/Color',
-  'esri/InfoTemplate',
-  'esri/dijit/InfoWindowLite',
-  "esri/config",
+  'esri/config',
   'bootstrap/Dropdown',
   'bootstrap/Tab',
   'bootstrap/Modal'
  ],
-  function(declare, BaseWidget,Query, QueryTask, domConstruct, arrayUtils, dom, on, FeatureLayer,Graphic,SimpleMarkerSymbol,SimpleLineSymbol,SimpleFillSymbol,Color, InfoTemplate,InfoWindowLite,esriConfig) {
+  function(declare, BaseWidget,Query, QueryTask, domConstruct, arrayUtils, dom, on, FeatureLayer,Graphic,SimpleMarkerSymbol,SimpleLineSymbol,SimpleFillSymbol,Color,esriConfig) {
     //To create a widget, you need to derive from BaseWidget.
     return declare([BaseWidget], {
       // Custom widget code goes here
@@ -194,7 +192,7 @@ define(['dojo/_base/declare',
 
                       };
 
-       },
+       X},
       onClose: function(){
         this.map.graphics.clear();
        },
