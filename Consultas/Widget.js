@@ -58,7 +58,6 @@ define(['dojo/_base/declare',
             var aLiBtn = domConstruct.create("a", {
                     'innerHTML':liName,
                     'onClick' : "funcionQuery('" + liQuery + "');"
-                    // 'data-dojo-attach-event':"onclick:funcionQueryliParams('"+liQuery+"')"
                     }, liBtn);
             };
           };
@@ -105,7 +104,12 @@ define(['dojo/_base/declare',
                             var features = fsResult.features;
                             //Funcion que nos recorre todos los elementos
                             arrayUtils.forEach(features, function(feature){
-                                    var targetId = "OBJECTID="+feature.attributes["OBJECTID"];
+                                    if (feature.attributes["OBJECTID"]) {
+                                      var targetId = "OBJECTID="+feature.attributes["OBJECTID"];
+
+                                    } else if (feature.attributes["objectid"]) {
+                                      var targetId = "objectid="+feature.attributes["objectid"]
+                                    };
                                     var featureRow = domConstruct.create("tr", {'onClick' : "funciOnClick('" + targetId + "');"}, "rutasUsers");
                                     for (i = 0; i < tableconfigParams.length; i++) {
                                         var attName = tableconfigParams[i].fieldName;
@@ -138,27 +142,29 @@ define(['dojo/_base/declare',
                                       
                                       for (i = 0; i < fs.features.length; i++) {
                                           var  featureSelected = fs.features[i];
-                                          if (featureSelected.geometry.type == "point" ||featureSelected.geometry.type == "MultiPoint") {
+                                          if (featureSelected.geometry.type == "point" ||featureSelected.geometry.type == "multiPoint") {
                                             var simbologia = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
                                                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                                                                   new Color([255,0,0]), 1),
                                                                   new Color([0,255,0,0.25]));
-                                          } else if (featureSelected.geometry.type == "LineString" ||featureSelected.geometry.type == "MultiLineString") {
+                                            mapa.centerAndZoom(featureSelected.geometry);
+                                          } else if (featureSelected.geometry.type == "lineString" ||featureSelected.geometry.type == "multiLineString") {
                                             var simbologia = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                                                                   new Color([255,0,0]),4);
+                                            mapa.setExtent(featureSelected.geometry.getExtent());
 
-                                          }else if (featureSelected.geometry.type == "Polygon" ||featureSelected.geometry.type == "MultiPolygon") {
+                                          }else if (featureSelected.geometry.type == "polygon" ||featureSelected.geometry.type == "multiPolygon") {
                                             var simbologia = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT,
                                                                   new Color([255,0,0]), 2),new Color([255,255,0,0.25])
                                                                   );
-
+                                            mapa.setExtent(featureSelected.geometry.getExtent());
                                           }
 
 
                                           var graphicElemnts = new Graphic(featureSelected.geometry,simbologia,featureSelected.attributes);
                                           mapa.graphics.add(graphicElemnts);
-                                          mapa.centerAndZoom(featureSelected.geometry);
+                                          
                                           //mapa.setExtent(featureSelected._extent);
                                           console.log(graphicElemnts);
 
@@ -192,7 +198,7 @@ define(['dojo/_base/declare',
 
                       };
 
-       X},
+       },
       onClose: function(){
         this.map.graphics.clear();
        },

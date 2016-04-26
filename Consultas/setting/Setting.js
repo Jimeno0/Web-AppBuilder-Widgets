@@ -132,29 +132,6 @@ define([
         functDeleteRow = function(){
           this.parentElement.parentElement.remove();
         };
-            
-        funciAddQueryLiOld = function(counter){
-          var parentTable = document.getElementById("idTableli"+counter);
-          var idElemento = "idQli"+that._algo.counterQli;
-          var tr = domConstruct.create("tr",{id:idElemento}),
-          td = domConstruct.create("td", {}, tr),
-          l = domConstruct.create("span", {innerHTML:"Nombre de consulta:"}, td, 'first'),
-          td1 = domConstruct.create("td", {}, tr),
-          l1 = domConstruct.create("input", {}, td1, 'first'),
-          td11 = domConstruct.create("td", {}, tr),
-          l11 = domConstruct.create("span", {innerHTML:"introduzca query:"}, td11, 'first');
-          td12 = domConstruct.create("td", {}, tr),
-          l12 = domConstruct.create("input", {}, td12, 'first');
-          td13 = domConstruct.create("td", {}, tr),
-          l13 = domConstruct.create("button", {
-                  innerHTML:"Delete",
-                  style: { "background-color": "red" },
-                  'onClick' : "funciBorrarRow("+idElemento+");"
-                }, td13, 'first');
-          parentTable.appendChild(tr);
-          that._algo.counterQli++;
-        };
-
 
         funciAddQueryLi = function(){
           var querysTable = this.parentElement.parentElement.children[4].children[0];
